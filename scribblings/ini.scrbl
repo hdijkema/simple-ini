@@ -74,7 +74,7 @@
 
 @defmodule[simple-ini/roos]{Require this module for the OO implementation of this Simple INI implementation
 
- Provides a Roos class that gives object-oriented access to INI files using the underlying @racket[file->ini] parser system. The class offers methods to load, query, and update INI files using familiar object-style interactions.}
+Provides a @seclink["top" #:doc '(lib "roos/scribblings/roos.scrbl")]{Roos class} that gives object-oriented access to INI files using the underlying @racket[file->ini] parser system. The class offers methods to load, query, and update INI files using familiar object-style interactions.}
 
                             
 @defproc[(-! [ini roos-class*] [or/c path-string?]) roos-object*]{
