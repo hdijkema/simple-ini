@@ -93,6 +93,13 @@ If no file is provided, the object operates in-memory only. Subsequent @racket[s
     Sets the file to use as backing storage for the INI structure. Triggers a reload from disk.
   }
 
+  @defproc[(fail) boolean?]{
+     Returns if an error will be thrown when a set! is done and no file has been set to write the contents to}
+
+  @defproc[(fail! [yn boolean?]) boolean?]{
+     Sets fail to the given value.}
+
+
   @defproc[(reload) void?]{
     Reloads the INI content from disk, using the current file path.
     If the file does not exist, the content is reset to an empty INI structure.
@@ -121,6 +128,5 @@ If no file is provided, the object operates in-memory only. Subsequent @racket[s
   @itemlist[
     @item{@racket[file*] — the filename (or @racket[#f])}
     @item{@racket[content] — the mutable INI structure}
-    @item{@racket[fail] — when enabled, raises errors instead of returning fallback values}
   ]
 
