@@ -6,8 +6,8 @@
               racket/string
               racket/file))
 
-@;(define myeval
-;   (make-base-eval '(require simple-ini)))
+(define myeval
+   (make-base-eval '(require simple-ini roos)))
 
 @title[#:tag "ini-parser"]{INI File Parser and Writer}
 
@@ -68,38 +68,37 @@
                    [key symbol?]
                    [val any/c])
          mc-pair?]{
-  Sets the value of @racket[key] in the specified @racket[section] of the INI structure. If the section or key does not exist, it is created. Returns the modified INI structure.
-                    }
+  Sets the value of @racket[key] in the specified @racket[section] of the INI structure. If the section or key does not exist, it is created. Returns the modified INI structure.}
 
 @section{The @racket[ini] Roos Class}
 
-@defmodule[simple-ini/roos]{Require this module for the OO implementation of this Simple INI implementation}
+@defmodule[simple-ini/roos]{Require this module for the OO implementation of this Simple INI implementation
 
-@racket[(def-roos ini . file)]{
-  A Roos class that provides object-oriented access to INI files using the underlying @racket[file->ini] parser system. The class offers methods to load, query, and update INI files using familiar object-style interactions.
+ Provides a Roos class that gives object-oriented access to INI files using the underlying @racket[file->ini] parser system. The class offers methods to load, query, and update INI files using familiar object-style interactions.}
 
-  @defproc[
-    (ini [file (or/c path-string? #f)] ...)
-  ]{
-    Creates an @racket[ini] object. If a @racket[file] path is provided and the file exists, it is loaded immediately. Otherwise, an empty INI structure is created.
+                            
+@defproc[(-! [ini roos-class*] [or/c path-string?]) roos-object*]{
+Creates an @racket[ini] object. If a @racket[file] path is provided and the file exists, it is loaded immediately. Otherwise, an empty INI structure is created.
 
-    If no file is provided, the object operates in-memory only. Subsequent @racket[set!] operations will raise an error unless a file is later specified with @racket[(file!)].
-  }
+If no file is provided, the object operates in-memory only. Subsequent @racket[set!] operations will raise an error unless a file is later specified with @racket[(file!)].
+}
 
-  @defmethod[(file) (or/c path-string? #f)]{
+
+  @defproc[(file) (or/c path-string? #f)]{
     Returns the current filename associated with this INI object.
   }
 
-  @defmethod[(file! [f path-string?]) void?]{
+
+  @defproc[(file! [f path-string?]) void?]{
     Sets the file to use as backing storage for the INI structure. Triggers a reload from disk.
   }
 
-  @defmethod[(reload) void?]{
+  @defproc[(reload) void?]{
     Reloads the INI content from disk, using the current file path.
     If the file does not exist, the content is reset to an empty INI structure.
   }
 
-  @defmethod[(set! [section symbol?] [key symbol?] [val any/c]) ini]{
+  @defproc[(set! [section symbol?] [key symbol?] [val any/c]) ini]{
     Sets the value in the INI structure for the given @racket[section] and @racket[key] to @racket[val].
 
     If a file is associated with the object, the structure is saved to disk immediately.
@@ -107,7 +106,7 @@
     Returns the INI object itself.
   }
 
-  @defmethod[(get [section symbol?] [key symbol?] [def-val any/c] ...) any/c]{
+  @defproc[(get [section symbol?] [key symbol?] [def-val any/c] ...) any/c]{
     Retrieves the value associated with the given @racket[section] and @racket[key].
     
     If not found:
@@ -124,5 +123,4 @@
     @item{@racket[content] — the mutable INI structure}
     @item{@racket[fail] — when enabled, raises errors instead of returning fallback values}
   ]
-}
 
