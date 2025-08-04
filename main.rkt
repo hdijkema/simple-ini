@@ -8,6 +8,7 @@
          ini-get
          ini-set!
          make-ini
+	 get-ini-file
          )
 
 
