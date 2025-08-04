@@ -10,8 +10,15 @@
          make-ini
          )
 
+
+(define (get-ini-file f)
+  (if (symbol? f) 
+    (let* ((pref-dir (find-system-path 'pref-dir)))
+       (build-path pref-dir (string-append (symbol->string f) ".ini")))
+    (build-path f)))
+
 (define (ini->file ini file)
-  (let ((out (open-output-file file #:exists 'replace)))
+  (let ((out (open-output-file (get-ini-file file) #:exists 'replace)))
     (let ((last-is-newline #f))
       (for-each (lambda (section)
                   (let ((section-name (car section)))
@@ -64,8 +71,9 @@
                       #f)
                   s)))))))
 
-(define (file->ini file)
-  (let* ((lines (file->lines file))
+(define (file->ini file*)
+  (let* ((file (get-ini-file file*))
+	 (lines (if (file-exists? file) (file->lines file) '()))
          (re-section #px"^\\[([a-zA-Z0-9_-]+)\\]$")
          (re-keyval #px"^([a-zA-Z0-9_-]+)[=](.*)$")
          (re-comment #px"^[;](.*)$"))

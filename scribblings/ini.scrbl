@@ -23,6 +23,8 @@
 
 @defproc[(file->ini [file path-string?]) mc-pair?]{
   Reads an INI file from disk and parses it into an internal mutable cons pair (mc-pair) structure.
+  If the file does noet exist, an empty ini structure is made. 
+  If file is a symbol?, the file will be constructed from the prefs-dir, the symbol and a suffix ".ini".
   
   The parser supports:
   
@@ -42,7 +44,8 @@
 }
 
 @defproc[(ini->file [ini mc-pair?] [file path-string?]) void?]{
-  Writes an INI structure (as produced by @racket[file->ini] or @racket[make-ini]) to the specified file.
+   Writes an INI structure (as produced by @racket[file->ini] or @racket[make-ini]) to the specified file.
+   If file is a symbol?, the file will be constructed from the prefs-dir, the symbol and a suffix ".ini".
   
   The output preserves:
   @itemlist[
