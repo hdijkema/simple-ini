@@ -77,7 +77,7 @@
 Provides a @seclink["top" #:doc '(lib "roos/scribblings/roos.scrbl")]{Roos class} that gives object-oriented access to INI files using the underlying @racket[file->ini] parser system. The class offers methods to load, query, and update INI files using familiar object-style interactions.}
 
                             
-@defproc[(-! [ini roos-class*] [or/c path-string?]) roos-object*]{
+@defproc[(%-! [ini roos-class*] [or/c path-string?]) roos-object*]{
 Creates an @racket[ini] object. If a @racket[file] path is provided and the file exists, it is loaded immediately. Otherwise, an empty INI structure is created.
 
 If no file is provided, the object operates in-memory only. Subsequent @racket[set!] operations will raise an error unless a file is later specified with @racket[(file!)].

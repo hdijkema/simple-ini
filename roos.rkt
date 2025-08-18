@@ -21,7 +21,7 @@
   (fail #f)
 
   ((file) file*)
-  ((file! f) (i-set! file* f) (-> this reload))
+  ((file! f) (i-set! file* f) (%-> this reload))
 
   ((reload) (i-set! content
                   (if (not (eq? file* #f))

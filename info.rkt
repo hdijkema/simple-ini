@@ -1,7 +1,7 @@
 #lang info
 
 (define pkg-authors '(hnmdijkema))
-(define version "0.20")
+(define version "0.2.1")
 (define license 'Apache-2.0)
 ;(define collection "simple-ini")
 (define pkg-desc "A Simple .ini file reader/writer for racket")
