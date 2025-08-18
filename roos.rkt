@@ -12,7 +12,7 @@
      (set! a b))))
 
 (def-roos (ini . _file) this (supers)
-  (file* (if (null? _file) #f (car _file)))
+  (file* (if (null? _file) #f (get-ini-file (car _file))))
   (content (if (not (eq? file* #f))
                (if (file-exists? file*)
                    (file->ini file*)
