@@ -2,6 +2,7 @@
 
 (require racket/string)
 (require racket/file)
+(require racket/port)
 
 (provide file->ini
          ini->file
@@ -48,7 +49,8 @@
                                                 (set! last-is-newline #f)
                                                 (display (cadr line) out)
                                                 (display "=" out)
-                                                (display (caddr line) out)
+                                                (display"VALUE:" out)
+                                                (write (caddr line) out)
                                                 (newline out))
                                               (error "Unknown line format")))))
                               lines))))
@@ -58,19 +60,26 @@
 (define (make-ini)
   (mcons 'ini (list)))
 
+(define re-num #px"^([+]|[-])?([0-9]+([.]([0-9]+))?)$")
+(define re-bool #px"^(#f|#t|true|false)$")
+(define re-value #px"^VALUE:(.*)$")
+  
 (define (interpret s)
-  (let ((re-num #px"^([+]|[-])?([0-9]+([.]([0-9]+))?)$")
-        (re-bool #px"^(#f|#t|true|false)$"))
-    (let ((ss (string-downcase (string-trim s))))
-      (let ((m-num (regexp-match re-num ss)))
-        (if m-num
-            (string->number (car m-num))
-            (let ((m-b (regexp-match re-bool ss)))
-              (if m-b
-                  (if (or (string=? ss "#t") (string=? ss "true"))
-                      #t
-                      #f)
-                  s)))))))
+  (let ((m (regexp-match re-value s)))
+    (if (eq? m #f)
+        (let ((ss (string-downcase (string-trim s))))
+          (let ((m-num (regexp-match re-num ss)))
+            (if (eq? m-num #f)
+                (let ((m-b (regexp-match re-bool ss)))
+                  (if (eq? m-b #f)
+                      s
+                      (if (or (string=? ss "#t") (string=? ss "true"))
+                          #t
+                          #f)
+                      ))
+                (string->number (car m-num)))))
+        (let* ((content (cadr m)))
+          (with-input-from-string content read)))))
 
 (define (file->ini file*)
   (let* ((file (get-ini-file file*))
