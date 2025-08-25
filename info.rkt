@@ -12,7 +12,7 @@
   )
 
 (define deps
-  '("base" "roos" "class"))
+  '("base" "roos" "racket/class"))
 
 (define build-deps
   '("racket-doc"
