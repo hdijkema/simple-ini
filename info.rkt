@@ -1,7 +1,7 @@
 #lang info
 
 (define pkg-authors '(hnmdijkema))
-(define version "0.3.0")
+(define version "0.3.1")
 (define license 'Apache-2.0)
 (define pkg-desc "A Simple .ini file reader/writer for racket")
 
@@ -12,7 +12,7 @@
   )
 
 (define deps
-  '("base" "roos"))
+  '("base" "roos" "class"))
 
 (define build-deps
   '("racket-doc"
