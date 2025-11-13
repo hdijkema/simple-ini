@@ -58,7 +58,7 @@
 
     (define/public (get section key . default-value)
       (let* ((rnd (string->symbol (format "@@no-value-~a-@@" (random 400000000))))
-             (def-val (if (null? default-value) rnd (car (default-value)))))
+             (def-val (if (null? default-value) rnd (car default-value))))
         (let ((r (ini-get content section key def-val)))
           (when fail
             (when (eq? r rnd)
